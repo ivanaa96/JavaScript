@@ -27,3 +27,65 @@ console.log(array.map((el) => el * el));
 //3. Make this function an arrow function
 let timesTwo = (num) => num * 2;
 console.log(timesTwo(5));
+
+//JS Array
+let colors = ["red", "green", "blue"];
+
+//for loop
+for (let i = 0; i < colors.length; i++) {
+	console.log(colors[i]);
+}
+
+//forEach
+colors.forEach((color) => console.log(color));
+
+//1. Write a function that will rotate an array to the right by a certain number of "steps".
+let arr1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+function rotateArray(array, step) {
+	for (let i = 0; i < step; i++) {
+		array.unshift(array.pop());
+	}
+	return array;
+}
+
+console.log(rotateArray(arr1, 5));
+
+//2. Write a function that uses the native Array .reduce method to sum up an array of numbers, but starting at 50.
+function sumArray(array) {
+	return array.reduce((sum, curr) => sum + curr, 50);
+}
+
+console.log(sumArray(arr1));
+
+//3.Create a function that takes a number as an argument and returns an array. The first element of the array should be 0, and then each element should increase by 1 until it reaches the input number. Then, each element should count back down to 0.
+function createArray(number) {
+	let array = [number];
+
+	for (let i = number - 1; i >= 0; i--) {
+		array.push(i);
+		array.unshift(i);
+	}
+
+	return array;
+}
+
+console.log(createArray(3));
+
+//4. Write a function zooInventory that takes a zoo's inventory of animals (represented using nested arrays) and returns an array of strings that describe each animal's name, species, and age.
+var myZoo = [
+	["King Kong", ["gorilla", 42]],
+	["Nemo", ["fish", 5]],
+	["Punxsutawney Phil", ["groundhog", 11]],
+];
+
+function arrayOfStrings(arr) {
+	let array = arr.map((el) => {
+		const flattened = el.flat(3);
+		flattened.splice(2, 0, "is");
+		return flattened.join(" ");
+	});
+	console.log(array);
+}
+
+arrayOfStrings(myZoo);
