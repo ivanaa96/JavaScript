@@ -89,3 +89,36 @@ function arrayOfStrings(arr) {
 }
 
 arrayOfStrings(myZoo);
+
+//JS/JSON Objects
+/*Create a JS person object which contains firstName, lastName and age.
+Create that same object but in JSON format
+Use JSON.parse to convert the second object to a JS object
+Use JSON.stringify to convert the first object to a JSON object */
+
+let personOne = {
+	firstName: "Ivana",
+	lastName: "Stanic",
+	age: 25,
+};
+
+let personJSON =
+	'{"firstName" : "Ivana", "lastName" : "Stanic", "age" : "25"  }';
+
+let personParse = JSON.parse(personJSON);
+// console.log(typeof personParse);
+let personStringify = JSON.stringify(personOne);
+// console.log(typeof personStringify);
+
+/* Create a JS array of numbers
+Create a JSON array of numbers
+Convert the second array to a JS array and loop over it.  */
+let jsArray = [1, 2, 3, 4];
+let JsonArray = '{"array":[1,2,3,4]}';
+
+let convertedArray = JSON.parse(JsonArray);
+let finalArray = Object.values(convertedArray);
+
+for (let i = 0; i < finalArray.length; i++) {
+	console.log(finalArray[i]);
+}
