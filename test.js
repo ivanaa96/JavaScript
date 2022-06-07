@@ -122,3 +122,139 @@ let finalArray = Object.values(convertedArray);
 for (let i = 0; i < finalArray.length; i++) {
 	console.log(finalArray[i]);
 }
+
+// ES6
+//let and const vs. var
+//var - global or function scope (if declared inside a function). Can be updated and re-declared. Because of hoisting can be used before initialization, default value is undefined.
+var globalVariable = 1;
+globalVariable = 3;
+console.log(globalVariable);
+
+//let - function/block scope. Can be updated, cannot be re-declared. Can be declared without initialization. Hoisting is not supported.
+let number = 2;
+number = 4;
+console.log(number);
+
+//const - function/block scope. Cannot be updated or re-declared. Cannot be declared without initialization. Hoisting is not supported.
+const objOne = {
+	age: 25,
+	fullName: "Ivana Stanic",
+};
+
+//cannot change const object's properties, but we can update its values
+objOne.age = 24;
+console.log(objOne);
+
+const test = "Hello, world!";
+
+try {
+	//error
+	test = "Good morning, world!";
+	console.log(test);
+} catch (error) {
+	console.log(error);
+}
+
+//ES6 classes vs. class functions
+//class function
+let createPerson = function (firstName, lastName) {
+	this.firstName = firstName;
+	this.lastName = lastName;
+};
+
+let person = new createPerson("Ivana", "Stanic");
+console.log(person, typeof person);
+
+//class
+class Person {
+	constructor(firstName, lastName) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+	}
+	getFullName() {
+		console.log(this.firstName + " " + this.lastName);
+	}
+}
+
+let humanOne = new Person("Marko", "Markovic");
+console.log(humanOne, typeof humanOne);
+humanOne.getFullName();
+
+// Arrow functions vs. ES5 functions (Read about `this` context)
+let russianLiterature = {
+	books: [
+		"Crime and Punishment",
+		"The Idiot",
+		"Demons",
+		"The Brothers Karamazov",
+	],
+	writer: "Fyodor Dostoevsky",
+	getFullInfo: function () {
+		return this.books.map(function (book) {
+			//this.writer - undefined because ‘this’ is referring to the function that called it which doesn’t know who is the writer. Solution: bind()
+			return `${this.writer} wrote some amazing books like for example ${book}.`;
+		});
+	},
+};
+console.log(russianLiterature.getFullInfo());
+
+let colombianLiterature = {
+	books: [
+		"One Hundred Years of Solitude",
+		"Chronicle of a Death Foretold",
+		"Love in the Time of Cholera ",
+	],
+	writer: "Gabriel García Márquez",
+	getFullInfo: function () {
+		return this.books.map((book) => {
+			//a. function doesn't have its own context; 'this' refers to the scope where the function is
+			return `${this.writer} wrote some amazing books like for example ${book}.`;
+		});
+	},
+};
+console.log(colombianLiterature.getFullInfo());
+
+//Promise.then()
+var buyNewLaptop = new Promise(function (resolvePromise, rejectPromise) {
+	let savings = 2000;
+	let priceOfLaptop = 1999;
+	if (savings > priceOfLaptop) {
+		resolvePromise({
+			brand: "Acer",
+			model: "Aspire",
+		});
+	} else {
+		rejectPromise("I don't have enough money now.");
+	}
+});
+
+buyNewLaptop.then((value) => {
+	console.log("I finally got this laptop!", JSON.stringify(value));
+});
+
+buyNewLaptop.catch((reason) => {
+	console.log("I couldn't buy the laptop because", reason);
+});
+
+console.log(buyNewLaptop);
+
+//async/await
+function getRandomPromise() {
+	return new Promise((resolvePromise, rejectPromise) => {
+		setTimeout(() => {
+			Math.floor(Math.random() * 11) >= 5
+				? resolvePromise({ status: "success" })
+				: rejectPromise(new Error("Oops! Something happened!"));
+		}, 2000);
+	});
+}
+
+async function tryPromise() {
+	try {
+		const result = await getRandomPromise();
+		console.log(result);
+	} catch (error) {
+		console.log(error);
+	}
+}
+tryPromise();
