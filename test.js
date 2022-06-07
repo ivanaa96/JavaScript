@@ -281,3 +281,96 @@ Promise.all([funPromise, getRandomPromise])
 	.catch((error) => {
 		console.log(error);
 	});
+
+//JS Prototypes and Classes
+class Character {
+	static numberOfCreatedCharacters = 0;
+
+	constructor() {
+		if (this.constructor === Character) {
+			throw new Error("Class Character cannot be instantiated!");
+		}
+
+		this.x = Math.round(Math.random() * 10);
+		this.y = Math.round(Math.random() * 10);
+		Character.numberOfCreatedCharacters++;
+	}
+
+	/**
+	 * @param {(arg0: number[]) => void} place
+	 */
+
+	set position(place) {
+		if (place[0] > 10 || place[1] > 10 || place[0] <= 0 || place[1] <= 0) {
+			throw new Error("Oops! We are sorry, but you are out of bounds!");
+		}
+
+		this.x = place[0];
+		this.y = place[1];
+	}
+}
+class PlayerCharacter extends Character {
+	constructor() {
+		super();
+	}
+}
+
+class NonPlayerCharacter extends Character {
+	constructor() {
+		super();
+	}
+}
+
+let playerOne = new PlayerCharacter();
+let nonPlayerOne = new NonPlayerCharacter();
+console.log("Number of players: " + Character.numberOfCreatedCharacters);
+console.log(playerOne);
+console.log(nonPlayerOne);
+
+try {
+	let testAbstractClass = new Character();
+} catch (error) {
+	console.log(error);
+}
+
+//Prototype
+const CharacterWithProto = function () {
+	this.x = Math.round(Math.random() * 10);
+	this.y = Math.round(Math.random() * 10);
+};
+
+Character.prototype = {
+	set position(place) {
+		if (place[0] > 10 || place[1] > 10 || place[0] <= 0 || place[1] <= 0) {
+			throw new Error("Oops! We are sorry, but you are out of bounds!");
+		}
+
+		this.x = place[0];
+		this.y = place[1];
+	},
+};
+
+const NonPlayerCharacter1 = function () {
+	//call - method belonging to other object, now can belong to this object also.
+	CharacterWithProto.call(this);
+};
+
+const PlayerCharacter1 = function () {
+	CharacterWithProto.call(this);
+};
+
+//Object.create() - creates a new object and allows us to determine his prototype
+NonPlayerCharacter1.prototype = Object.create(CharacterWithProto.prototype);
+//Prototype constructor belongs to NonPlayerCharacter1
+NonPlayerCharacter1.prototype.constructor = NonPlayerCharacter1;
+
+PlayerCharacter1.prototype = Object.create(CharacterWithProto.prototype);
+PlayerCharacter1.prototype.constructor = PlayerCharacter1;
+
+let playerProtoOne = new PlayerCharacter1();
+let playerProtoTwo = new PlayerCharacter1();
+let nonPlayerProto = new NonPlayerCharacter1();
+
+console.log(playerProtoOne);
+console.log(playerProtoTwo);
+console.log(nonPlayerProto);
