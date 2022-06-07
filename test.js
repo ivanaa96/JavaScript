@@ -239,22 +239,45 @@ buyNewLaptop.catch((reason) => {
 console.log(buyNewLaptop);
 
 //async/await
-function getRandomPromise() {
-	return new Promise((resolvePromise, rejectPromise) => {
-		setTimeout(() => {
-			Math.floor(Math.random() * 11) >= 5
-				? resolvePromise({ status: "success" })
-				: rejectPromise(new Error("Oops! Something happened!"));
-		}, 2000);
-	});
-}
+const getRandomPromise = new Promise((resolvePromise, rejectPromise) => {
+	setTimeout(() => {
+		Math.floor(Math.random() * 11) >= 5
+			? resolvePromise({ status: "success" })
+			: rejectPromise(new Error("Oops! Something happened!"));
+	}, 2000);
+});
 
 async function tryPromise() {
 	try {
-		const result = await getRandomPromise();
+		const result = await getRandomPromise;
 		console.log(result);
 	} catch (error) {
 		console.log(error);
 	}
 }
 tryPromise();
+
+//Promise
+const funPromise = new Promise((resolve, reject) => {
+	if (Math.ceil(Math.random() * 10) > 5) {
+		setTimeout(() => {
+			resolve("Success!");
+		}, 1000);
+	} else {
+		reject("Error!");
+	}
+});
+
+funPromise
+	.then((result) => console.log(result))
+	.catch((error) => console.log(error));
+
+//Promise.all()
+Promise.all([funPromise, getRandomPromise])
+	.then(([resultOne, resultTwo]) => {
+		console.log("result one:", resultOne);
+		console.log("result two:", resultTwo);
+	})
+	.catch((error) => {
+		console.log(error);
+	});
